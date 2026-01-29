@@ -113,7 +113,6 @@ add_custom_command(
     COMMENT "Copying ${GNN_MODEL_FILE} to build directory"
 )
 
-# Optional: expose model file name to C++
 target_compile_definitions(gnn_test PRIVATE
     GNN_MODEL_FILE_NAME="${GNN_MODEL_FILE}"
 )
