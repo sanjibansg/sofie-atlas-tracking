@@ -32,7 +32,7 @@ void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
 #ifdef USE_LARGE
    TMVA_SOFIE_gnn_large::Session s("gnn_large_dynamic.dat",ne, nh);
 #else
-   TMVA_SOFIE_gnn_small::Session s("gnn_small_dynamic.dat",ne, nh);
+   TMVA_SOFIE_gnn::Session s("gnn_small_dynamic.dat",ne, nh);
 #endif
 
 
@@ -55,7 +55,7 @@ void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
       std::generate(ea.begin(), ea.end(), []{return gRandom->Gaus(0,5);});
 
       if (i % nprint == 0) {
-         std::cout << "inputr for i = " << i << " : ";
+         std::cout << "input for i = " << i << " : ";
          std::cout << x[0] << "   " << eidx[0] << "   " << ea[0] << "....." << std::endl;
       }
 
@@ -91,8 +91,8 @@ void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
 
 int main(int argc, char **argv) {
    
-   int ne = 300000;
-   int nh = 100000;
+   int ne = 100000;
+   int nh = 300000;
    int nevts = NEVTS;
    if (argc > 2) {
       ne = std::atoi(argv[1]);
