@@ -35,7 +35,7 @@ endif()
 # Executable
 # ----------------------------------------
 add_executable(gnn_test
-    run_inference_tracking_dynamic.C
+    run_inference_tracking.cxx
 )
 
 # ----------------------------------------
