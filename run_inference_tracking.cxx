@@ -13,16 +13,16 @@
 
 #define RANDOM
 
-
-#include "TRandom.h"
-#include "TStopwatch.h"
-#include "TH2.h"
-#include "TCanvas.h"
+#include <random>
+#include <chrono>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
 
 // number of edges needs to be less or equal than number of hits
 void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
-   TStopwatch tw;
+   auto start_time = std::chrono::high_resolution_clock::now();
 
    int nprint = nevts/10;
 
@@ -39,20 +39,23 @@ void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
    std::vector<float> x(nh*12);
    std::vector<int64_t> eidx(ne*2);
    std::vector<float> ea(ne*6);
-
-   auto h2 = new TH2D("h2","Result",10,0,10,100,0,1);
+   
    check_mem("before looping");
-   tw.Start();
 
-   gRandom->SetSeed(111);
+   // Random number generator setup
+   std::mt19937 gen(111);
+   std::normal_distribution<float> gauss_3(0.0, 3.0);
+   std::normal_distribution<float> gauss_5(0.0, 5.0);
+   std::uniform_int_distribution<int64_t> uniform_nh(0, nh-1);
+   
    std::cout << "using random inputs" << std::endl;
 
 
    for (int i = 0; i < nevts; i++) {
 
-      std::generate(x.begin(), x.end(), []{return gRandom->Gaus(0,3);});
-      std::generate(eidx.begin(), eidx.end(), [&]{return gRandom->Integer(nh);});
-      std::generate(ea.begin(), ea.end(), []{return gRandom->Gaus(0,5);});
+      std::generate(x.begin(), x.end(), [&]{return gauss_3(gen);});
+      std::generate(eidx.begin(), eidx.end(), [&]{return uniform_nh(gen);});
+      std::generate(ea.begin(), ea.end(), [&]{return gauss_5(gen);});
 
       if (i % nprint == 0) {
          std::cout << "input for i = " << i << " : ";
@@ -67,26 +70,13 @@ void test_model(int nevts = 1000, int ne = 0, int nh= 20) {
          std::cout  << std::endl;
          check_mem("at current event");
       }
-
-      float ires = 0.5;
-      for (auto & r : result) {
-         h2->Fill(ires,r);
-         ires++;
-      }
    }
 
-
-   tw.Print();
+   auto end_time = std::chrono::high_resolution_clock::now();
+   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+   std::cout << "\n\nElapsed time: " << duration.count() / 1000.0 << " seconds" << std::endl;
+   
    check_mem("memory at the end");
-   auto c1 = new TCanvas();
-   c1->Divide(2,5);
-   for (int i = 0; i < 10; i++) {
-      c1->cd(i+1);
-      std::string pname = std::string("py_") + std::to_string(i); 
-      auto p = h2->ProjectionY(pname.c_str(),i+1,i+1);
-      p->Draw();
-   }
-   c1->SaveAs("model_tracking.pdf");
 }
 
 int main(int argc, char **argv) {
@@ -104,4 +94,3 @@ int main(int argc, char **argv) {
    std::cout << "testing model with nedges: " << ne << " nhits:  " << nh << std::endl;
       test_model(nevts, ne, nh);
 }
-
