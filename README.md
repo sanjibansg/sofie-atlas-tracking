@@ -7,6 +7,7 @@ Repository containing implementations on inferring the ATLAS GNN Tracking model 
 ## Requirements
 1. CMake (v3.16)
 2. C++20
+3. BLAS
 
 ## Experimentation
 
