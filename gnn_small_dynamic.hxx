@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
-#include "TMVA/SOFIE_common.hxx"
+#include "SOFIE_common.hxx"
 #include <fstream>
 
 namespace TMVA_SOFIE_gnn{
@@ -1031,7 +1031,7 @@ Session(std::string filename ="gnn.dat",
    if (!f.is_open()) {
       throw std::runtime_error("tmva-sofie failed to open file " + filename + " for input weights");
    }
-   using TMVA::Experimental::SOFIE::ReadTensorFromStream;
+   using SOFIE::ReadTensorFromStream;
    ReadTensorFromStream(f, tensor_node_network36weight, "tensor_node_network36weight", 1024);
    ReadTensorFromStream(f, tensor_edge_decoder0bias, "tensor_edge_decoder0bias", 32);
    ReadTensorFromStream(f, tensor_edge_network56weight, "tensor_edge_network56weight", 1024);
@@ -1143,7 +1143,7 @@ Session(std::string filename ="gnn.dat",
    f.close();
 
 //  dynamic tensor memory management
-   std::vector<TMVA::Experimental::SOFIE::TensorLifeInfo> dynamicTensorInfos;
+   std::vector<SOFIE::TensorLifeInfo> dynamicTensorInfos;
    dynamicTensorInfos.reserve(225);
    dynamicTensorInfos.push_back( {1, 620, 8* (num_edges) }); // tensor_Gather_output_0
    dynamicTensorInfos.push_back( {3, 621, 8* (num_edges) }); // tensor_Gather_1_output_0
@@ -1603,7 +1603,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_encodernode_encoder0Gemm_output_0[y_index + k] = tensor_node_encoder0bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_encodernode_encoder0Gemm_output_0, true, false, 32, num_spacepoints, 12, 1, tensor_node_encoder0weight, tensor_x, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_encodernode_encoder0Gemm_output_0, true, false, 32, num_spacepoints, 12, 1, tensor_node_encoder0weight, tensor_x, 1,nullptr);
 // ---- Constant (no-op) 5 --> node_encodernode_encoder1Constant_output_0 {  }
 // ---- Constant (no-op) 6 --> node_encodernode_encoder1Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_7
@@ -1639,7 +1639,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_encodernode_encoder3Gemm_output_0[y_index + k] = tensor_node_encoder3bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_encodernode_encoder3Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_encoder3weight, tensor_node_encodernode_encoder2Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_encodernode_encoder3Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_encoder3weight, tensor_node_encodernode_encoder2Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 10 --> node_encodernode_encoder4Constant_output_0 {  }
 // ---- Constant (no-op) 11 --> node_encodernode_encoder4Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_12
@@ -1675,7 +1675,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_encodernode_encoder7Relu_output_0[y_index + k] = tensor_node_encoder6bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_encodernode_encoder7Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_encoder6weight, tensor_node_encodernode_encoder5Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_encodernode_encoder7Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_encoder6weight, tensor_node_encodernode_encoder5Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_encodernode_encoder7Relu_output_0[id] = ((tensor_node_encodernode_encoder7Relu_output_0[id] > 0 )? tensor_node_encodernode_encoder7Relu_output_0[id] : 0);
    }
@@ -1687,7 +1687,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_encoderedge_encoder0Gemm_output_0[y_index + k] = tensor_edge_encoder0bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder0Gemm_output_0, true, false, 32, num_edges, 6, 1, tensor_edge_encoder0weight, tensor_edge_attr, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder0Gemm_output_0, true, false, 32, num_edges, 6, 1, tensor_edge_encoder0weight, tensor_edge_attr, 1,nullptr);
 // ---- Constant (no-op) 16 --> edge_encoderedge_encoder1Constant_output_0 {  }
 // ---- Constant (no-op) 17 --> edge_encoderedge_encoder1Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_18
@@ -1723,7 +1723,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_encoderedge_encoder3Gemm_output_0[y_index + k] = tensor_edge_encoder3bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder3Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_encoder3weight, tensor_edge_encoderedge_encoder2Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder3Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_encoder3weight, tensor_edge_encoderedge_encoder2Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 21 --> edge_encoderedge_encoder4Constant_output_0 {  }
 // ---- Constant (no-op) 22 --> edge_encoderedge_encoder4Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_23
@@ -1759,7 +1759,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_encoderedge_encoder7Relu_output_0[y_index + k] = tensor_edge_encoder6bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder7Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_encoder6weight, tensor_edge_encoderedge_encoder5Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_encoderedge_encoder7Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_encoder6weight, tensor_edge_encoderedge_encoder5Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_encoderedge_encoder7Relu_output_0[id] = ((tensor_edge_encoderedge_encoder7Relu_output_0[id] > 0 )? tensor_edge_encoderedge_encoder7Relu_output_0[id] : 0);
    }
@@ -1839,7 +1839,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network0edge_network00Gemm_output_0[y_index + k] = tensor_edge_network00bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network0edge_network00Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network00weight, tensor_Concat_1_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network0edge_network00Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network00weight, tensor_Concat_1_output_0, 1,nullptr);
 // ---- Constant (no-op) 31 --> edge_network0edge_network01Constant_output_0 {  }
 // ---- Constant (no-op) 32 --> edge_network0edge_network01Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_33
@@ -1875,7 +1875,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network0edge_network03Gemm_output_0[y_index + k] = tensor_edge_network03bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network0edge_network03Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network03weight, tensor_edge_network0edge_network02Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network0edge_network03Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network03weight, tensor_edge_network0edge_network02Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 36 --> edge_network0edge_network04Constant_output_0 {  }
 // ---- Constant (no-op) 37 --> edge_network0edge_network04Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_38
@@ -1911,7 +1911,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network0edge_network07Relu_output_0[y_index + k] = tensor_edge_network06bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network0edge_network07Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network06weight, tensor_edge_network0edge_network05Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network0edge_network07Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network06weight, tensor_edge_network0edge_network05Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network0edge_network07Relu_output_0[id] = ((tensor_edge_network0edge_network07Relu_output_0[id] > 0 )? tensor_edge_network0edge_network07Relu_output_0[id] : 0);
    }
@@ -1937,7 +1937,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_65 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_output_0, num_edges * 32));
 // ---- Constant (no-op) 66 --> onnxUnsqueeze_186 {  }
 // ---- Constant (no-op) 68 --> onnxUnsqueeze_188 {  }
 
@@ -1980,7 +1980,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_96 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_1_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_1_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 97 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_3_output_0, tensor_ConstantOfShape_3_output_0 + num_spacepoints * 32, 0);
@@ -2029,7 +2029,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network0node_network00Gemm_output_0[y_index + k] = tensor_node_network00bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network0node_network00Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network00weight, tensor_Concat_6_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network0node_network00Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network00weight, tensor_Concat_6_output_0, 1,nullptr);
 // ---- Constant (no-op) 104 --> node_network0node_network01Constant_output_0 {  }
 // ---- Constant (no-op) 105 --> node_network0node_network01Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_106
@@ -2065,7 +2065,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network0node_network03Gemm_output_0[y_index + k] = tensor_node_network03bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network0node_network03Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network03weight, tensor_node_network0node_network02Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network0node_network03Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network03weight, tensor_node_network0node_network02Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 109 --> node_network0node_network04Constant_output_0 {  }
 // ---- Constant (no-op) 110 --> node_network0node_network04Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_111
@@ -2101,7 +2101,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network0node_network07Relu_output_0[y_index + k] = tensor_node_network06bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network0node_network07Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network06weight, tensor_node_network0node_network05Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network0node_network07Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network06weight, tensor_node_network0node_network05Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network0node_network07Relu_output_0[id] = ((tensor_node_network0node_network07Relu_output_0[id] > 0 )? tensor_node_network0node_network07Relu_output_0[id] : 0);
    }
@@ -2181,7 +2181,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network1edge_network10Gemm_output_0[y_index + k] = tensor_edge_network10bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network1edge_network10Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network10weight, tensor_Concat_8_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network1edge_network10Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network10weight, tensor_Concat_8_output_0, 1,nullptr);
 // ---- Constant (no-op) 119 --> edge_network1edge_network11Constant_output_0 {  }
 // ---- Constant (no-op) 120 --> edge_network1edge_network11Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_121
@@ -2217,7 +2217,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network1edge_network13Gemm_output_0[y_index + k] = tensor_edge_network13bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network1edge_network13Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network13weight, tensor_edge_network1edge_network12Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network1edge_network13Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network13weight, tensor_edge_network1edge_network12Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 124 --> edge_network1edge_network14Constant_output_0 {  }
 // ---- Constant (no-op) 125 --> edge_network1edge_network14Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_126
@@ -2253,7 +2253,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network1edge_network17Relu_output_0[y_index + k] = tensor_edge_network16bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network1edge_network17Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network16weight, tensor_edge_network1edge_network15Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network1edge_network17Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network16weight, tensor_edge_network1edge_network15Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network1edge_network17Relu_output_0[id] = ((tensor_edge_network1edge_network17Relu_output_0[id] > 0 )? tensor_edge_network1edge_network17Relu_output_0[id] : 0);
    }
@@ -2276,7 +2276,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_151 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_2_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_2_output_0, num_edges * 32));
 // ---- Constant (no-op) 152 --> onnxUnsqueeze_274 {  }
 // ---- Constant (no-op) 154 --> onnxUnsqueeze_276 {  }
 
@@ -2316,7 +2316,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_180 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_3_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_3_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 181 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_7_output_0, tensor_ConstantOfShape_7_output_0 + num_spacepoints * 32, 0);
@@ -2365,7 +2365,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network1node_network10Gemm_output_0[y_index + k] = tensor_node_network10bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network1node_network10Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network10weight, tensor_Concat_13_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network1node_network10Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network10weight, tensor_Concat_13_output_0, 1,nullptr);
 // ---- Constant (no-op) 188 --> node_network1node_network11Constant_output_0 {  }
 // ---- Constant (no-op) 189 --> node_network1node_network11Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_190
@@ -2401,7 +2401,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network1node_network13Gemm_output_0[y_index + k] = tensor_node_network13bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network1node_network13Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network13weight, tensor_node_network1node_network12Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network1node_network13Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network13weight, tensor_node_network1node_network12Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 193 --> node_network1node_network14Constant_output_0 {  }
 // ---- Constant (no-op) 194 --> node_network1node_network14Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_195
@@ -2437,7 +2437,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network1node_network17Relu_output_0[y_index + k] = tensor_node_network16bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network1node_network17Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network16weight, tensor_node_network1node_network15Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network1node_network17Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network16weight, tensor_node_network1node_network15Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network1node_network17Relu_output_0[id] = ((tensor_node_network1node_network17Relu_output_0[id] > 0 )? tensor_node_network1node_network17Relu_output_0[id] : 0);
    }
@@ -2517,7 +2517,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network2edge_network20Gemm_output_0[y_index + k] = tensor_edge_network20bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network2edge_network20Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network20weight, tensor_Concat_15_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network2edge_network20Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network20weight, tensor_Concat_15_output_0, 1,nullptr);
 // ---- Constant (no-op) 203 --> edge_network2edge_network21Constant_output_0 {  }
 // ---- Constant (no-op) 204 --> edge_network2edge_network21Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_205
@@ -2553,7 +2553,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network2edge_network23Gemm_output_0[y_index + k] = tensor_edge_network23bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network2edge_network23Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network23weight, tensor_edge_network2edge_network22Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network2edge_network23Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network23weight, tensor_edge_network2edge_network22Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 208 --> edge_network2edge_network24Constant_output_0 {  }
 // ---- Constant (no-op) 209 --> edge_network2edge_network24Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_210
@@ -2589,7 +2589,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network2edge_network27Relu_output_0[y_index + k] = tensor_edge_network26bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network2edge_network27Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network26weight, tensor_edge_network2edge_network25Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network2edge_network27Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network26weight, tensor_edge_network2edge_network25Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network2edge_network27Relu_output_0[id] = ((tensor_edge_network2edge_network27Relu_output_0[id] > 0 )? tensor_edge_network2edge_network27Relu_output_0[id] : 0);
    }
@@ -2612,7 +2612,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_235 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_4_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_4_output_0, num_edges * 32));
 // ---- Constant (no-op) 236 --> onnxUnsqueeze_360 {  }
 // ---- Constant (no-op) 238 --> onnxUnsqueeze_362 {  }
 
@@ -2652,7 +2652,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_264 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_5_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_5_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 265 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_11_output_0, tensor_ConstantOfShape_11_output_0 + num_spacepoints * 32, 0);
@@ -2701,7 +2701,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network2node_network20Gemm_output_0[y_index + k] = tensor_node_network20bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network2node_network20Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network20weight, tensor_Concat_20_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network2node_network20Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network20weight, tensor_Concat_20_output_0, 1,nullptr);
 // ---- Constant (no-op) 272 --> node_network2node_network21Constant_output_0 {  }
 // ---- Constant (no-op) 273 --> node_network2node_network21Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_274
@@ -2737,7 +2737,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network2node_network23Gemm_output_0[y_index + k] = tensor_node_network23bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network2node_network23Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network23weight, tensor_node_network2node_network22Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network2node_network23Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network23weight, tensor_node_network2node_network22Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 277 --> node_network2node_network24Constant_output_0 {  }
 // ---- Constant (no-op) 278 --> node_network2node_network24Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_279
@@ -2773,7 +2773,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network2node_network27Relu_output_0[y_index + k] = tensor_node_network26bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network2node_network27Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network26weight, tensor_node_network2node_network25Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network2node_network27Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network26weight, tensor_node_network2node_network25Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network2node_network27Relu_output_0[id] = ((tensor_node_network2node_network27Relu_output_0[id] > 0 )? tensor_node_network2node_network27Relu_output_0[id] : 0);
    }
@@ -2853,7 +2853,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network3edge_network30Gemm_output_0[y_index + k] = tensor_edge_network30bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network3edge_network30Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network30weight, tensor_Concat_22_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network3edge_network30Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network30weight, tensor_Concat_22_output_0, 1,nullptr);
 // ---- Constant (no-op) 287 --> edge_network3edge_network31Constant_output_0 {  }
 // ---- Constant (no-op) 288 --> edge_network3edge_network31Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_289
@@ -2889,7 +2889,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network3edge_network33Gemm_output_0[y_index + k] = tensor_edge_network33bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network3edge_network33Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network33weight, tensor_edge_network3edge_network32Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network3edge_network33Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network33weight, tensor_edge_network3edge_network32Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 292 --> edge_network3edge_network34Constant_output_0 {  }
 // ---- Constant (no-op) 293 --> edge_network3edge_network34Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_294
@@ -2925,7 +2925,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network3edge_network37Relu_output_0[y_index + k] = tensor_edge_network36bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network3edge_network37Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network36weight, tensor_edge_network3edge_network35Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network3edge_network37Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network36weight, tensor_edge_network3edge_network35Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network3edge_network37Relu_output_0[id] = ((tensor_edge_network3edge_network37Relu_output_0[id] > 0 )? tensor_edge_network3edge_network37Relu_output_0[id] : 0);
    }
@@ -2948,7 +2948,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_319 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_6_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_6_output_0, num_edges * 32));
 // ---- Constant (no-op) 320 --> onnxUnsqueeze_446 {  }
 // ---- Constant (no-op) 322 --> onnxUnsqueeze_448 {  }
 
@@ -2988,7 +2988,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_348 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_7_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_7_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 349 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_15_output_0, tensor_ConstantOfShape_15_output_0 + num_spacepoints * 32, 0);
@@ -3037,7 +3037,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network3node_network30Gemm_output_0[y_index + k] = tensor_node_network30bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network3node_network30Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network30weight, tensor_Concat_27_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network3node_network30Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network30weight, tensor_Concat_27_output_0, 1,nullptr);
 // ---- Constant (no-op) 356 --> node_network3node_network31Constant_output_0 {  }
 // ---- Constant (no-op) 357 --> node_network3node_network31Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_358
@@ -3073,7 +3073,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network3node_network33Gemm_output_0[y_index + k] = tensor_node_network33bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network3node_network33Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network33weight, tensor_node_network3node_network32Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network3node_network33Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network33weight, tensor_node_network3node_network32Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 361 --> node_network3node_network34Constant_output_0 {  }
 // ---- Constant (no-op) 362 --> node_network3node_network34Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_363
@@ -3109,7 +3109,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network3node_network37Relu_output_0[y_index + k] = tensor_node_network36bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network3node_network37Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network36weight, tensor_node_network3node_network35Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network3node_network37Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network36weight, tensor_node_network3node_network35Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network3node_network37Relu_output_0[id] = ((tensor_node_network3node_network37Relu_output_0[id] > 0 )? tensor_node_network3node_network37Relu_output_0[id] : 0);
    }
@@ -3189,7 +3189,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network4edge_network40Gemm_output_0[y_index + k] = tensor_edge_network40bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network4edge_network40Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network40weight, tensor_Concat_29_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network4edge_network40Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network40weight, tensor_Concat_29_output_0, 1,nullptr);
 // ---- Constant (no-op) 371 --> edge_network4edge_network41Constant_output_0 {  }
 // ---- Constant (no-op) 372 --> edge_network4edge_network41Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_373
@@ -3225,7 +3225,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network4edge_network43Gemm_output_0[y_index + k] = tensor_edge_network43bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network4edge_network43Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network43weight, tensor_edge_network4edge_network42Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network4edge_network43Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network43weight, tensor_edge_network4edge_network42Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 376 --> edge_network4edge_network44Constant_output_0 {  }
 // ---- Constant (no-op) 377 --> edge_network4edge_network44Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_378
@@ -3261,7 +3261,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network4edge_network47Relu_output_0[y_index + k] = tensor_edge_network46bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network4edge_network47Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network46weight, tensor_edge_network4edge_network45Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network4edge_network47Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network46weight, tensor_edge_network4edge_network45Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network4edge_network47Relu_output_0[id] = ((tensor_edge_network4edge_network47Relu_output_0[id] > 0 )? tensor_edge_network4edge_network47Relu_output_0[id] : 0);
    }
@@ -3284,7 +3284,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_403 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_8_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_8_output_0, num_edges * 32));
 // ---- Constant (no-op) 404 --> onnxUnsqueeze_532 {  }
 // ---- Constant (no-op) 406 --> onnxUnsqueeze_534 {  }
 
@@ -3324,7 +3324,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_432 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_9_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_9_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 433 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_19_output_0, tensor_ConstantOfShape_19_output_0 + num_spacepoints * 32, 0);
@@ -3373,7 +3373,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network4node_network40Gemm_output_0[y_index + k] = tensor_node_network40bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network4node_network40Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network40weight, tensor_Concat_34_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network4node_network40Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network40weight, tensor_Concat_34_output_0, 1,nullptr);
 // ---- Constant (no-op) 440 --> node_network4node_network41Constant_output_0 {  }
 // ---- Constant (no-op) 441 --> node_network4node_network41Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_442
@@ -3409,7 +3409,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network4node_network43Gemm_output_0[y_index + k] = tensor_node_network43bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network4node_network43Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network43weight, tensor_node_network4node_network42Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network4node_network43Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network43weight, tensor_node_network4node_network42Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 445 --> node_network4node_network44Constant_output_0 {  }
 // ---- Constant (no-op) 446 --> node_network4node_network44Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_447
@@ -3445,7 +3445,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network4node_network47Relu_output_0[y_index + k] = tensor_node_network46bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network4node_network47Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network46weight, tensor_node_network4node_network45Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network4node_network47Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network46weight, tensor_node_network4node_network45Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network4node_network47Relu_output_0[id] = ((tensor_node_network4node_network47Relu_output_0[id] > 0 )? tensor_node_network4node_network47Relu_output_0[id] : 0);
    }
@@ -3525,7 +3525,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network5edge_network50Gemm_output_0[y_index + k] = tensor_edge_network50bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network5edge_network50Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network50weight, tensor_Concat_36_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network5edge_network50Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network50weight, tensor_Concat_36_output_0, 1,nullptr);
 // ---- Constant (no-op) 455 --> edge_network5edge_network51Constant_output_0 {  }
 // ---- Constant (no-op) 456 --> edge_network5edge_network51Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_457
@@ -3561,7 +3561,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network5edge_network53Gemm_output_0[y_index + k] = tensor_edge_network53bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network5edge_network53Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network53weight, tensor_edge_network5edge_network52Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network5edge_network53Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network53weight, tensor_edge_network5edge_network52Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 460 --> edge_network5edge_network54Constant_output_0 {  }
 // ---- Constant (no-op) 461 --> edge_network5edge_network54Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_462
@@ -3597,7 +3597,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network5edge_network57Relu_output_0[y_index + k] = tensor_edge_network56bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network5edge_network57Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network56weight, tensor_edge_network5edge_network55Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network5edge_network57Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network56weight, tensor_edge_network5edge_network55Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network5edge_network57Relu_output_0[id] = ((tensor_edge_network5edge_network57Relu_output_0[id] > 0 )? tensor_edge_network5edge_network57Relu_output_0[id] : 0);
    }
@@ -3620,7 +3620,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_487 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_10_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_10_output_0, num_edges * 32));
 // ---- Constant (no-op) 488 --> onnxUnsqueeze_618 {  }
 // ---- Constant (no-op) 490 --> onnxUnsqueeze_620 {  }
 
@@ -3660,7 +3660,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_516 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_11_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_11_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 517 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_23_output_0, tensor_ConstantOfShape_23_output_0 + num_spacepoints * 32, 0);
@@ -3709,7 +3709,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network5node_network50Gemm_output_0[y_index + k] = tensor_node_network50bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network5node_network50Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network50weight, tensor_Concat_41_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network5node_network50Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network50weight, tensor_Concat_41_output_0, 1,nullptr);
 // ---- Constant (no-op) 524 --> node_network5node_network51Constant_output_0 {  }
 // ---- Constant (no-op) 525 --> node_network5node_network51Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_526
@@ -3745,7 +3745,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network5node_network53Gemm_output_0[y_index + k] = tensor_node_network53bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network5node_network53Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network53weight, tensor_node_network5node_network52Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network5node_network53Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network53weight, tensor_node_network5node_network52Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 529 --> node_network5node_network54Constant_output_0 {  }
 // ---- Constant (no-op) 530 --> node_network5node_network54Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_531
@@ -3781,7 +3781,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network5node_network57Relu_output_0[y_index + k] = tensor_node_network56bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network5node_network57Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network56weight, tensor_node_network5node_network55Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network5node_network57Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network56weight, tensor_node_network5node_network55Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network5node_network57Relu_output_0[id] = ((tensor_node_network5node_network57Relu_output_0[id] > 0 )? tensor_node_network5node_network57Relu_output_0[id] : 0);
    }
@@ -3861,7 +3861,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network6edge_network60Gemm_output_0[y_index + k] = tensor_edge_network60bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network6edge_network60Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network60weight, tensor_Concat_43_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network6edge_network60Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network60weight, tensor_Concat_43_output_0, 1,nullptr);
 // ---- Constant (no-op) 539 --> edge_network6edge_network61Constant_output_0 {  }
 // ---- Constant (no-op) 540 --> edge_network6edge_network61Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_541
@@ -3897,7 +3897,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network6edge_network63Gemm_output_0[y_index + k] = tensor_edge_network63bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network6edge_network63Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network63weight, tensor_edge_network6edge_network62Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network6edge_network63Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network63weight, tensor_edge_network6edge_network62Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 544 --> edge_network6edge_network64Constant_output_0 {  }
 // ---- Constant (no-op) 545 --> edge_network6edge_network64Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_546
@@ -3933,7 +3933,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network6edge_network67Relu_output_0[y_index + k] = tensor_edge_network66bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network6edge_network67Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network66weight, tensor_edge_network6edge_network65Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network6edge_network67Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network66weight, tensor_edge_network6edge_network65Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network6edge_network67Relu_output_0[id] = ((tensor_edge_network6edge_network67Relu_output_0[id] > 0 )? tensor_edge_network6edge_network67Relu_output_0[id] : 0);
    }
@@ -3956,7 +3956,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_571 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_12_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_12_output_0, num_edges * 32));
 // ---- Constant (no-op) 572 --> onnxUnsqueeze_704 {  }
 // ---- Constant (no-op) 574 --> onnxUnsqueeze_706 {  }
 
@@ -3996,7 +3996,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    
 //------ Expand op_600 --> { num_edges , 32 }
    // Broadcasting uninitialized tensor Unsqueeze_7_output_0
-   TMVA::Experimental::SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_13_output_0, num_edges * 32));
+   SOFIE::UTILITY::UnidirectionalBroadcast<int64_t>(tensor_Unsqueeze_7_output_0, { num_edges , 1 }, { num_edges , 32 }, std::span<int64_t>(tensor_Expand_13_output_0, num_edges * 32));
 
 //--------- ConstantOfShape 601 --> { num_spacepoints , 32 }
    std::fill(tensor_ConstantOfShape_27_output_0, tensor_ConstantOfShape_27_output_0 + num_spacepoints * 32, 0);
@@ -4045,7 +4045,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network6node_network60Gemm_output_0[y_index + k] = tensor_node_network60bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network6node_network60Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network60weight, tensor_Concat_48_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network6node_network60Gemm_output_0, true, false, 32, num_spacepoints, 128, 1, tensor_node_network60weight, tensor_Concat_48_output_0, 1,nullptr);
 // ---- Constant (no-op) 608 --> node_network6node_network61Constant_output_0 {  }
 // ---- Constant (no-op) 609 --> node_network6node_network61Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_610
@@ -4081,7 +4081,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network6node_network63Gemm_output_0[y_index + k] = tensor_node_network63bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network6node_network63Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network63weight, tensor_node_network6node_network62Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network6node_network63Gemm_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network63weight, tensor_node_network6node_network62Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 613 --> node_network6node_network64Constant_output_0 {  }
 // ---- Constant (no-op) 614 --> node_network6node_network64Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_615
@@ -4117,7 +4117,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_node_network6node_network67Relu_output_0[y_index + k] = tensor_node_network66bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_node_network6node_network67Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network66weight, tensor_node_network6node_network65Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_node_network6node_network67Relu_output_0, true, false, 32, num_spacepoints, 32, 1, tensor_node_network66weight, tensor_node_network6node_network65Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_spacepoints * 32 ; id++){
       tensor_node_network6node_network67Relu_output_0[id] = ((tensor_node_network6node_network67Relu_output_0[id] > 0 )? tensor_node_network6node_network67Relu_output_0[id] : 0);
    }
@@ -4197,7 +4197,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network7edge_network70Gemm_output_0[y_index + k] = tensor_edge_network70bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network7edge_network70Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network70weight, tensor_Concat_50_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network7edge_network70Gemm_output_0, true, false, 32, num_edges, 192, 1, tensor_edge_network70weight, tensor_Concat_50_output_0, 1,nullptr);
 // ---- Constant (no-op) 623 --> edge_network7edge_network71Constant_output_0 {  }
 // ---- Constant (no-op) 624 --> edge_network7edge_network71Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_625
@@ -4233,7 +4233,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network7edge_network73Gemm_output_0[y_index + k] = tensor_edge_network73bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network7edge_network73Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network73weight, tensor_edge_network7edge_network72Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network7edge_network73Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network73weight, tensor_edge_network7edge_network72Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 628 --> edge_network7edge_network74Constant_output_0 {  }
 // ---- Constant (no-op) 629 --> edge_network7edge_network74Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_630
@@ -4269,7 +4269,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_network7edge_network77Relu_output_0[y_index + k] = tensor_edge_network76bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_network7edge_network77Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network76weight, tensor_edge_network7edge_network75Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_network7edge_network77Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_network76weight, tensor_edge_network7edge_network75Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_network7edge_network77Relu_output_0[id] = ((tensor_edge_network7edge_network77Relu_output_0[id] > 0 )? tensor_edge_network7edge_network77Relu_output_0[id] : 0);
    }
@@ -4281,7 +4281,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_decoderedge_decoder1Relu_output_0[y_index + k] = tensor_edge_decoder0bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_decoderedge_decoder1Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_decoder0weight, tensor_edge_network7edge_network77Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_decoderedge_decoder1Relu_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_decoder0weight, tensor_edge_network7edge_network77Relu_output_0, 1,nullptr);
    for (int id = 0; id < num_edges * 32 ; id++){
       tensor_edge_decoderedge_decoder1Relu_output_0[id] = ((tensor_edge_decoderedge_decoder1Relu_output_0[id] > 0 )? tensor_edge_decoderedge_decoder1Relu_output_0[id] : 0);
    }
@@ -4293,7 +4293,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_output_transformedge_output_transform0Gemm_output_0[y_index + k] = tensor_edge_output_transform0bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_output_transformedge_output_transform0Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_output_transform0weight, tensor_edge_decoderedge_decoder1Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_output_transformedge_output_transform0Gemm_output_0, true, false, 32, num_edges, 32, 1, tensor_edge_output_transform0weight, tensor_edge_decoderedge_decoder1Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 635 --> edge_output_transformedge_output_transform1Constant_output_0 {  }
 // ---- Constant (no-op) 636 --> edge_output_transformedge_output_transform1Constant_1_output_0 {  }
 //---- Layer Normalization  operator op_637
@@ -4329,7 +4329,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
          tensor_edge_output_transformedge_output_transform3Gemm_output_0[y_index + k] = tensor_edge_output_transform3bias[k];
       }
    }
-   TMVA::Experimental::SOFIE::Gemm_Call(tensor_edge_output_transformedge_output_transform3Gemm_output_0, true, false, 1, num_edges, 32, 1, tensor_edge_output_transform3weight, tensor_edge_output_transformedge_output_transform2Relu_output_0, 1,nullptr);
+   SOFIE::Gemm_Call(tensor_edge_output_transformedge_output_transform3Gemm_output_0, true, false, 1, num_edges, 32, 1, tensor_edge_output_transform3weight, tensor_edge_output_transformedge_output_transform2Relu_output_0, 1,nullptr);
 // ---- Constant (no-op) 640 --> Constant_95_output_0 {  }
    ///--------Squeeze operator 641 --> { num_edges }
    std::copy( tensor_edge_output_transformedge_output_transform3Gemm_output_0, tensor_edge_output_transformedge_output_transform3Gemm_output_0 + num_edges, tensor_Squeeze_output_0);
@@ -4338,7 +4338,7 @@ void doInfer(size_t num_spacepoints,float const* tensor_x,size_t num_edges,int64
    for (int id = 0; id < num_edges ; id++){
       tensor_output[id] = static_cast<float>(tensor_Squeeze_output_0[id]);
    }
-   using TMVA::Experimental::SOFIE::UTILITY::FillOutput;
+   using SOFIE::UTILITY::FillOutput;
 
    FillOutput(tensor_output, output_tensor_output, num_edges);
 }

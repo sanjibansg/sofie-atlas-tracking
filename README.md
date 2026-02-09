@@ -6,19 +6,10 @@ Repository containing implementations on inferring the ATLAS GNN Tracking model 
 
 ## Requirements
 1. CMake (v3.16)
-2. [ROOT - latest](https://github.com/root-project/root.git)
+2. C++20
+3. BLAS
+
 ## Experimentation
-
-This example requires some support functions present in [ROOT - latest](https://github.com/root-project/root.git). Therefore, we need ROOT to be installed beforehand.
-
-```bash
-git clone git clone https://github.com/root-project/root.git
-mkdir build_root install_root && cd build_root
-cmake -DCMAKE_INSTALL_PREFIX=../install_root  -Dtmva-sofie=ON -Dtesting=OFF -Droottest=OFF -Droofit=OFF  ../root
-cmake --build . --target install -j6
-source ../install_root/bin/thisroot.sh
-```
-Once ROOT is installed, we can build the example.
 
 ```bash
 git clone https://github.com/sanjibansg/sofie-atlas-tracking.git

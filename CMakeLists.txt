@@ -4,7 +4,7 @@ project(gnn_test LANGUAGES CXX)
 # ----------------------------------------
 # C++ standard
 # ----------------------------------------
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -16,12 +16,6 @@ option(DO_DEBUG "Enable debug mode" OFF)
 
 # Default NEVTS value (can be overridden)
 set(NEVTS 10 CACHE STRING "Default number of events")
-
-# ----------------------------------------
-# Find ROOT
-# ----------------------------------------
-find_package(ROOT REQUIRED COMPONENTS TMVA)
-include(${ROOT_USE_FILE})
 
 # ----------------------------------------
 # Find BLAS
@@ -36,14 +30,15 @@ endif()
 # ----------------------------------------
 add_executable(gnn_test
     run_inference_tracking.cxx
+    utils/SOFIE_common.cxx
 )
 
 # ----------------------------------------
 # Include paths
 # ----------------------------------------
 target_include_directories(gnn_test PRIVATE
-    ${ROOT_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
 )
 
 # ----------------------------------------
@@ -90,9 +85,10 @@ endif()
 # ----------------------------------------
 # Link libraries
 # ----------------------------------------
+
+target_compile_features(gnn_test PUBLIC cxx_std_20)
+
 target_link_libraries(gnn_test PRIVATE
-    ${ROOT_LIBRARIES}
-    ROOTTMVASofie
     ${BLAS_LIBRARIES}
 )
 
