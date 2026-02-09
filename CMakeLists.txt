@@ -2,66 +2,46 @@ cmake_minimum_required(VERSION 3.16)
 project(gnn_test LANGUAGES CXX)
 
 # ----------------------------------------
-# C++ standard
-# ----------------------------------------
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-# ----------------------------------------
 # Options
 # ----------------------------------------
-option(USE_LARGE "Use large GNN model" OFF)
-option(DO_DEBUG "Enable debug mode" OFF)
+option(SOFIE_GNN_USE_LARGE "Use large GNN model" OFF)
+option(SOFIE_GNN_DEBUG "Enable debug mode" OFF)
 
 # Default NEVTS value (can be overridden)
-set(NEVTS 10 CACHE STRING "Default number of events")
+set(SOFIE_GNN_NEVTS 10 CACHE STRING "Default number of events")
 
 # ----------------------------------------
 # Find BLAS
 # ----------------------------------------
-find_package(BLAS)
+find_package(BLAS REQUIRED)
 if (BLAS_FOUND)
     message(STATUS "Found BLAS (libraries: ${BLAS_LIBRARIES})")
 endif()
 
 # ----------------------------------------
-# Executable
+# Interface library for headers
 # ----------------------------------------
-add_executable(gnn_test
-    run_inference_tracking.cxx
-    utils/SOFIE_common.cxx
+add_library(sofie_gnn SHARED utils/SOFIE_common.cxx)
+add_library(sofie_gnn::sofie_gnn ALIAS sofie_gnn)
+
+target_include_directories(sofie_gnn PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/utils>
+    $<INSTALL_INTERFACE:include>
 )
 
-# ----------------------------------------
-# Include paths
-# ----------------------------------------
-target_include_directories(gnn_test PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils
-)
+# Require C++20 via the interface library
+target_compile_features(sofie_gnn PUBLIC cxx_std_20)
 
-# ----------------------------------------
-# Compile definitions (macros)
-# ----------------------------------------
-target_compile_definitions(gnn_test PRIVATE
-    NEVTS=${NEVTS}
-)
+target_link_libraries(sofie_gnn PUBLIC ${BLAS_LIBRARIES})
 
-if (USE_LARGE)
-    target_compile_definitions(gnn_test PRIVATE USE_LARGE)
-endif()
-
-if (DO_DEBUG)
-    target_compile_definitions(gnn_test PRIVATE DO_DEBUG)
-endif()
 
 # ----------------------------------------
 # Optimization flags
 # ----------------------------------------
-if (NOT DO_DEBUG)
+if (NOT SOFIE_GNN_DEBUG)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        target_compile_options(gnn_test PRIVATE
+        target_compile_options(sofie_gnn PUBLIC 
             -O3
             -ffast-math
             -funroll-loops
@@ -70,32 +50,51 @@ if (NOT DO_DEBUG)
             -mtune=native
         )
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
-        target_compile_options(gnn_test PRIVATE
+        target_compile_options(sofie_gnn PUBLIC
             -O3
             -fast
         )
     endif()
 else()
-    target_compile_options(gnn_test PRIVATE
+    target_compile_options(sofie_gnn PUBLIC 
         -O0
         -g
     )
 endif()
 
-# ----------------------------------------
-# Link libraries
-# ----------------------------------------
 
-target_compile_features(gnn_test PUBLIC cxx_std_20)
-
-target_link_libraries(gnn_test PRIVATE
-    ${BLAS_LIBRARIES}
+# ----------------------------------------
+# Executable
+# ----------------------------------------
+add_executable(gnn_test
+    run_inference_tracking.cxx
 )
+
+# ----------------------------------------
+# Link to interface library
+# ----------------------------------------
+target_link_libraries(gnn_test PRIVATE sofie_gnn)
+
+# ----------------------------------------
+# Compile definitions (macros)
+# ----------------------------------------
+target_compile_definitions(gnn_test PRIVATE
+    NEVTS=${SOFIE_GNN_NEVTS}
+)
+
+if (SOFIE_GNN_USE_LARGE)
+    target_compile_definitions(gnn_test PRIVATE USE_LARGE)
+endif()
+
+if (SOFIE_GNN_DEBUG)
+    target_compile_definitions(gnn_test PRIVATE DO_DEBUG)
+endif()
+
 
 # ----------------------------------------
 # Model data file selection & copy
 # ----------------------------------------
-if (USE_LARGE)
+if (SOFIE_GNN_USE_LARGE)
     set(GNN_MODEL_FILE gnn_large_dynamic.dat)
 else()
     set(GNN_MODEL_FILE gnn_small_dynamic.dat)
