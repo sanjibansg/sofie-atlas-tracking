@@ -21,7 +21,7 @@ endif()
 # ----------------------------------------
 # Interface library for headers
 # ----------------------------------------
-add_library(sofie_gnn SHARED utils/SOFIE_common.cxx)
+add_library(sofie_gnn STATIC utils/SOFIE_common.cxx)
 add_library(sofie_gnn::sofie_gnn ALIAS sofie_gnn)
 
 target_include_directories(sofie_gnn PUBLIC 
