@@ -29,6 +29,7 @@ target_include_directories(sofie_gnn PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/utils>
     $<INSTALL_INTERFACE:include>
 )
+set_target_properties(sofie_gnn PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Require C++20 via the interface library
 target_compile_features(sofie_gnn PUBLIC cxx_std_20)
